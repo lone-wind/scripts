@@ -1,10 +1,13 @@
 #---Edit by lone_wind
+#检查更新
 check_update () {
     opkg update && opkg install pv gzip
 }
+#清理文件
 clean_up() {
     rm -rf artifact openwrt-rockchip*.img.gz openwrt-rockchip*img* sha256sums* autoupdate.sh*
 }
+#版本选择
 version_choose () {
     echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
     echo "0---Exit退出"
@@ -35,14 +38,16 @@ version_choose () {
             ;;
     esac
 }
+#固件下载
 download_file () {
-    cd /tmp && clean_up
+    clean_up && cd /tmp && clean_up
     days=$days+1
     echo `(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)`
     wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)-Lean$choose/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
     wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)-Lean$choose/sha256sums
     exist_judge
 }
+#存在判断
 exist_judge () {
     if [ -f /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz ]; then
         echo -e '\e[92m固件已下载\e[0m'
@@ -56,6 +61,7 @@ exist_judge () {
         download_file
     fi
 }
+#跳过固件
 version_skip () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
@@ -78,6 +84,7 @@ version_skip () {
             ;;
     esac
 }
+#固件验证
 firmware_check () {
     if [ -f /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img	]; then
         echo -e '\e[92m检查升级文件大小\e[0m'
@@ -93,6 +100,7 @@ firmware_check () {
     fi
     version_confirm
 }
+#版本确认
 version_confirm () {
     read -p "是否确认升级? [Y/N] " confirm
     case $confirm in
@@ -111,6 +119,7 @@ version_confirm () {
             ;;
     esac
 }
+#解压固件
 unzip_fireware () {
     rm -rf /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img
     echo -e '\e[92m开始解压固件\e[0m'
@@ -123,14 +132,15 @@ unzip_fireware () {
         unzip_fireware
     fi
 }
+#升级系统
 update_system () {
     echo -e '\e[92m开始升级系统\e[0m'
     sleep 3s
     sysupgrade -v /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img
 }
+#系统更新
 update_firmware () {
     check_update    #检查更新
-    clean_up        #清理文件
     version_choose  #版本选择
     download_file   #固件下载
     firmware_check  #固件验证
