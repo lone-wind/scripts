@@ -1,4 +1,5 @@
 #---Edit by lone_wind
+
 #检查更新
 check_update () {
     opkg update && opkg install pv gzip
@@ -22,15 +23,12 @@ version_choose () {
             ;;
         1)
             echo -e '\e[92m已选择Docker版本\e[0m'
-            break;
             ;;
         2)
             echo -e '\e[92m已选择Overclocking默频版\e[0m'
-            break;
             ;;
         3)
             echo -e '\e[92m已选择formal edition正式版\e[0m'
-            break;
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
@@ -40,20 +38,20 @@ version_choose () {
 }
 #固件下载
 download_file () {
-    clean_up && cd /tmp && clean_up
-    days=$days+1
-    echo `(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)`
-    wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)-Lean$choose/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
-    wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)-Lean$choose/sha256sums
+    cd /tmp && clean_up
+    days=$(($days+1))
+    echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
+    wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean$choose/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
+    wget https://github.com/DHDAXCW/NanoPi-R4S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean$choose/sha256sums
     exist_judge
 }
 #存在判断
 exist_judge () {
     if [ -f /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz ]; then
         echo -e '\e[92m固件已下载\e[0m'
-        echo `(date -d "@$(($(busybox date +%s) - 86400*(days-1)))" +%Y.%m.%d)`-Lean$choose
+        echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean$choose
         version_skip
-    elif [ $days == 15 ]; then
+    elif [ $days == 21 ]; then
         echo -e '\e[91m未找到合适固件，脚本退出\e[0m'
         exit;
     else
@@ -67,7 +65,6 @@ version_skip () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo "已确认"
-            break;
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
@@ -96,6 +93,7 @@ firmware_check () {
         grep ext4-sysupgrade sha256sums
     else
         echo -e '\e[91m没有相关升级文件，请检查网络\e[0m'
+        clean_up
         exit;
     fi
     version_confirm
@@ -106,7 +104,6 @@ version_confirm () {
     case $confirm in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已确认升级\e[0m'
-            break;
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m已确认退出\e[0m'
@@ -141,10 +138,12 @@ update_system () {
 #系统更新
 update_firmware () {
     check_update    #检查更新
+    clean_up       #清理文件
     version_choose  #版本选择
     download_file   #固件下载
     firmware_check  #固件验证
     unzip_fireware  #解压固件
     update_system   #升级系统
 }
+
 update_firmware
