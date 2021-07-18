@@ -3,5 +3,5 @@
 # 脚本说明
 - 用于骷髅头R4S_4G_EXT4格式的固件，进行在线升级（1G和精简版请自行升级）。
 ```
-wget https://raw.githubusercontent.com//lone-wind/scripts/main/autoupdate.sh && sh autoupdate.sh
+wget https://raw.githubusercontent.com/lone-wind/scripts/main/autoupdate.sh && sh autoupdate.sh
 ```
