@@ -5,7 +5,7 @@
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/autoupdate.sh && sh autoupdate.sh
 ```
-- 适用于骷髅头R2S/R4S的Ext4或Squashfs格式的固件，进行在线升级（暂未验证）。
+- 适用于骷髅头R2S/R4S的Ext4或Squashfs格式的固件，进行在线升级（已验证，对1g内存 测试算是失败了）。
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh && sh onlineupdate.sh
 ```
