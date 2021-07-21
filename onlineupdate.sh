@@ -211,7 +211,7 @@ version_confirm () {
 unzip_fireware () {
     rm -rf openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img
     echo -e '\e[92m开始解压固件\e[0m'
-    gunzip -c -v openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img.gz
+    gunzip -c openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img.gz
     if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img	]; then
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
