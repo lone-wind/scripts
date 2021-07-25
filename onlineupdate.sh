@@ -215,6 +215,9 @@ unzip_fireware () {
     if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img	]; then
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
+    else
+        echo -e '\e[91m解压固件失败，退出脚本\e[0m'
+        exit;
     fi
 }
 #升级系统
