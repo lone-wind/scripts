@@ -3,7 +3,7 @@
 check_update () {
     wget 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' -O 1035ac73cc4e59e3
     opkg-key add 1035ac73cc4e59e3
-    opkg update && opkg install gv gzip
+    opkg update && opkg install pv gzip
 }
 #清理文件
 clean_up() {
