@@ -137,7 +137,7 @@ update_system () {
 }
 #系统更新
 update_firmware () {
-    #check_update    #检查更新
+    check_update    #检查更新
     clean_up        #清理文件
     version_choose  #版本选择
     download_file   #固件下载
