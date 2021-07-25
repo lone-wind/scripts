@@ -13,7 +13,7 @@ version_choose () {
     echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
     echo "0---Exit退出"
     echo "1---Docker版"
-    echo "2---Overclocking默频版"
+    echo "2---Silent frequency默频版"
     echo "3---formal edition正式版"
     read -p "请输入数字[0-3],回车确认 " choose
     case $choose in
@@ -25,7 +25,7 @@ version_choose () {
             echo -e '\e[92m已选择Docker版本\e[0m'
             ;;
         2)
-            echo -e '\e[92m已选择Overclocking默频版\e[0m'
+            echo -e '\e[92m已选择Silent frequency默频版\e[0m'
             ;;
         3)
             echo -e '\e[92m已选择formal edition正式版\e[0m'
@@ -138,7 +138,7 @@ update_system () {
 #系统更新
 update_firmware () {
     check_update    #检查更新
-    clean_up       #清理文件
+    clean_up        #清理文件
     version_choose  #版本选择
     download_file   #固件下载
     firmware_check  #固件验证
