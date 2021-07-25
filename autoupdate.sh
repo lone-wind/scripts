@@ -2,7 +2,7 @@
 
 #检查更新
 check_update () {
-    opkg update && opkg install pv gzip
+    opkg update && opkg install gzip
 }
 #清理文件
 clean_up() {
@@ -120,7 +120,7 @@ version_confirm () {
 unzip_fireware () {
     rm -rf /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img
     echo -e '\e[92m开始解压固件\e[0m'
-    pv openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz | gunzip -dc > openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img
+    gunzip openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
     if [ -f /tmp/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img	]; then
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
@@ -137,7 +137,7 @@ update_system () {
 }
 #系统更新
 update_firmware () {
-    check_update    #检查更新
+    #check_update    #检查更新
     clean_up        #清理文件
     version_choose  #版本选择
     download_file   #固件下载
