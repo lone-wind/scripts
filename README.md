@@ -9,3 +9,7 @@ wget https://raw.githubusercontent.com/lone-wind/scripts/main/autoupdate.sh && s
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh && sh onlineupdate.sh
 ```
+- 适用于F大 Arm盒子+Op固件，Docker安装双ADG容器。
+```
+wget https://raw.githubusercontent.com/lone-wind/scripts/main/adg.sh && sh adg.sh
+```
