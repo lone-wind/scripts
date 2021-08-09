@@ -11,7 +11,7 @@ wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh &&
 ```
 - 适用于F大 Arm盒子+Op固件，Docker安装双ADG容器。
 ```
-wget https://raw.githubusercontent.com/lone-wind/scripts/main/adg.sh && ./adg.sh
+wget https://raw.githubusercontent.com/lone-wind/scripts/main/adg.sh && sh adg.sh
 ```
 - 适用于F大 Arm盒子+Op固件，精简插件，保留最重要的SSRP+动态DNS。
 ```
