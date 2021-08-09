@@ -31,11 +31,11 @@ build_adg1 () {
         --net=host \
         -d adguard/adguardhome:latest
     echo -e '\e[91m请设置/完善该容器后，再操作另一容器\e[0m'
-    echo -e '\e[92m浏览器访问 ip:3000 开始设置\e[0m'
+    echo -e '\e[92m首次设置，使用浏览器访问 ip:3000\e[0m'
 }
 #创建/更新 容器2
 build_adg2 () {
-    echo -e '\e[92m开始创建/更新ADG容器1\e[0m'
+    echo -e '\e[92m开始创建/更新ADG容器2\e[0m'
     docker stop adguardhome2
     docker rm adguardhome2
     docker pull  adguard/adguardhome:latest
@@ -47,7 +47,7 @@ build_adg2 () {
         --net=host \
         -d adguard/adguardhome:latest
     echo -e '\e[91m请设置/完善该容器后，再操作另一容器\e[0m'
-    echo -e '\e[92m浏览器访问 ip:3000 开始设置\e[0m'
+    echo -e '\e[92m首次设置，使用浏览器访问 ip:3000\e[0m'
 }
 #功能选择
 work_choose () {
