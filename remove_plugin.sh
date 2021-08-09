@@ -14,10 +14,6 @@ uninstall_overview_mwan () {
 	opkg remove luci-i18n-mwan3helper-zh-cn
 	opkg remove mwan3
 }
-uninstall_overview_ramfree () {
-	opkg remove luci-app-ramfree
-	opkg remove luci-i18n-ramfree-zh-cn
-}
 uninstall_system_autoreboot () {
 	opkg remove luci-app-autoreboot
 	opkg remove luci-i18n-autoreboot-zh-cn
@@ -256,7 +252,6 @@ uninstall_theme () {
 }
 
 uninstall_plugin () {
-    uninstall_overview_ramfree
     uninstall_overview_mwan
     uninstall_overview_wireguard
     uninstall_service_accesscontrol
