@@ -88,5 +88,5 @@ work_choose () {
 }
 #start
 save_path=/mnt/mmcblk2p4
-echo "默认设定容器路径为${save_path}"
+echo -e '\e[92m默认容器路径为\e[0m' ${save_path}
 work_choose
