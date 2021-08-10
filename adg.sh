@@ -1,8 +1,42 @@
 #Build by lone-wind
+#默认容器路径
+default_path () {
+    save_path=/mnt/mmcblk2p4
+}
+#功能选择
+work_choose () {
+    echo -e '\e[92m请选择功能或退出\e[0m'
+    echo "0 --- 退出 Adg脚本"
+    echo "1 --- 选择容器目录"
+    echo "2 --- 创建工作目录"
+    echo "3 --- 操作 ADG容器"
+    read -p "请输入数字[0-3],回车确认 " works
+    case $works in
+        0)
+            echo -e '\e[91m退出脚本，结束操作\e[0m'
+            exit;
+            ;;
+        1)
+            echo -e '\e[92m已选择：设定容器目录\e[0m'
+            work_path
+            echo -e '\e[92m当前容器路径为\e[0m' ${save_path}
+            ;;
+        2)
+            echo -e '\e[92m已选择：创建工作目录\e[0m'
+            build_files
+            ;;
+        3)
+            echo -e '\e[92m已选择：操作 ADG容器\e[0m'
+            adg_choose
+            ;;
+        *)
+            echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
+            ;;
+    esac
+    work_choose
+}
 #选择容器目录
 work_path () {
-    df -h
-    echo -e '\e[92m请选择容器的路径\e[0m'
     echo "0 --- 返回上级菜单"
     echo "1 --- 默认容器路径"
     echo "2 --- 设定容器路径"
@@ -16,6 +50,8 @@ work_path () {
             ;;
         2)
             echo -e '\e[92m已选择：设定容器路径\e[0m'
+            df -h
+            echo -e '\e[92m请选择足够存放容器的路径\e[0m'
             read -p "请输入带有“/”的绝对路径回车 " save_path
             ;;
         *)
@@ -23,10 +59,6 @@ work_path () {
             work_path
             ;;
     esac
-}
-#默认容器路径
-default_path () {
-    save_path=/mnt/mmcblk2p4
 }
 #创建工作目录
 build_files () {
@@ -67,6 +99,8 @@ adg_function () {
     echo "0 --- 返回上级菜单"
     echo "1 --- 创建/更新 Adg容器"
     echo "2 --- 删除 Adg容器"
+    echo "3 --- 查看 Adg容器状态"
+    echo "4 --- 查看 Adg容器日志"
     read -p "请选择功能或退出 " function_num
     case $function_num in
         0)
@@ -78,6 +112,14 @@ adg_function () {
         2)
             echo -e '\e[92m已选择：删除 Adg容器\e[0m'${adg_num}
             del_adg
+            ;;
+        3)
+            echo -e '\e[92m已选择：查看 Adg容器状态\e[0m'
+            docker ps -f "name=adguardhome${adg_num}"
+            ;;
+        4)
+            echo -e '\e[92m已选择：查看 Adg容器日志\e[0m'
+            docker logs -f "adguardhome${adg_num}"
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
@@ -106,38 +148,6 @@ del_adg () {
     docker rm adguardhome${adg_num}
     docker image prune -f
     echo -e '\e[91m已删除 Adg容器\e[0m'${adg_num}
-}
-#功能选择
-work_choose () {
-    echo -e '\e[92m请选择功能或退出\e[0m'
-    echo "0 --- 退出脚本"
-    echo "1 --- 选择容器目录"
-    echo "2 --- 创建工作目录"
-    echo "3 --- 操作 ADG容器"
-    read -p "请输入数字[0-3],回车确认 " works
-    case $works in
-        0)
-            echo -e '\e[91m退出脚本，结束操作\e[0m'
-            exit;
-            ;;
-        1)
-            echo -e '\e[92m已选择：设定容器目录\e[0m'
-            work_path
-            echo -e '\e[92m当前容器路径为\e[0m' ${save_path}
-            ;;
-        2)
-            echo -e '\e[92m已选择：创建工作目录\e[0m'
-            build_files
-            ;;
-        3)
-            echo -e '\e[92m已选择：操作 ADG容器\e[0m'
-            adg_choose
-            ;;
-        *)
-            echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
-            ;;
-    esac
-    work_choose
 }
 #start
 default_path
