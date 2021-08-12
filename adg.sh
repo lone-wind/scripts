@@ -130,7 +130,7 @@ build_files () {
 #导出工作目录
 files_export () {
     echo -e '\e[92m请选择足够存放文件的导出路径\e[0m'
-    du -s ${save_path}/adg && df -h
+    du -s ${save_path}/adg/ && df -h
     read -p "请输入带有“/”的导出路径并回车 " export_path
     read -p "是否确认导出? [Y/N] " export_choose
     case $export_choose in
@@ -147,7 +147,6 @@ files_export () {
             files_export
             ;;
     esac
-    ls 
 }
 #导出工作目录
 export_copy () {
@@ -252,5 +251,6 @@ del_adg () {
     docker pull  adguard/adguardhome:latest
     docker image prune -f
 }
+#start
 default_path
 work_choose
