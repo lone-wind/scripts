@@ -44,6 +44,7 @@ docker_path () {
     read -p "请输入数字[0-2],回车确认 " docker_num
     case $docker_num in
         0)
+            work_choose
             ;;
         1)
             echo -e '\e[92m已选择：使用当前路径\e[0m' ${PWD}
@@ -69,6 +70,7 @@ change_path () {
     read -p "请输入数字[0-2],回车确认 " path_num
     case $path_num in
         0)
+            work_choose
             ;;
         [1-2])
             echo -e '\e[92m已选择：修改目录 \e[0m' $path_num
@@ -188,6 +190,7 @@ adg_choose () {
     read -p "请输入数字[0-2],回车确认 " adg_num
     case $adg_num in
         0)
+            work_choose
             ;;
         [1-2])
             echo -e '\e[92m已选择：Adg容器 \e[0m' $adg_num
