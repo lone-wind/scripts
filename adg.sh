@@ -73,6 +73,7 @@ change_path () {
         [1-2])
             echo -e '\e[92m已选择：修改目录 \e[0m' $path_num
             files_path
+            ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
             change_path
@@ -251,6 +252,5 @@ del_adg () {
     docker pull  adguard/adguardhome:latest
     docker image prune -f
 }
-#start
 default_path
 work_choose
