@@ -76,9 +76,9 @@ change_path () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
+            change_path
             ;;
     esac
-    change_path
 }
 #设定工作路径
 files_path () {
@@ -89,6 +89,7 @@ files_path () {
     read -p "请输入数字[0-3],回车确认 " files_num
     case $files_num in
         0)
+            change_path
             ;;
         1)
             echo -e '\e[92m已选择：创建工作目录\e[0m'
@@ -121,7 +122,9 @@ files_judge () {
 #创建工作目录
 build_files () {
     echo -e '\e[92m开始创建Adg工作目录\e[0m' ${path_num}
-    mkdir ${save_path}/adg
+    if [ ! -d ${save_path}/adg ]; then
+        mkdir ${save_path}/adg
+    fi
     mkdir ${save_path}/adg/workdir${path_num} && mkdir ${save_path}/adg/confdir${path_num}
     echo -e '\e[91m请检查文件夹是否创建完毕\e[0m'
     ls ${save_path}/adg/
@@ -192,34 +195,45 @@ adg_choose () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
+            adg_choose
             ;;
     esac
-    adg_choose
 }
 #Adg功能选择
 adg_function () {
     echo "0 --- 返回上级菜单"
     echo "1 --- 创建/更新 Adg容器"
-    echo "2 --- 删除 Adg容器"
-    echo "3 --- 查看 Adg容器状态"
-    echo "4 --- 查看 Adg容器日志"
-    read -p "请输入数字[0-4],回车确认 " function_num
+    echo "2 --- 启动 Adg容器"
+    echo "3 --- 停止 Adg容器"
+    echo "4 --- 删除 Adg容器"
+    echo "5 --- 查看 Adg容器状态"
+    echo "6 --- 查看 Adg容器日志"
+    read -p "请输入数字[0-6],回车确认 " function_num
     case $function_num in
         0)
+            adg_choose
             ;;
         1)
             echo -e '\e[92m已选择：创建/更新 Adg容器\e[0m'${adg_num}
             build_adg
             ;;
         2)
+            echo -e '\e[92m已选择：启动 Adg容器\e[0m'${adg_num}
+            docker start adguardhome${adg_num}
+            ;;
+        3)
+            echo -e '\e[92m已选择：停止 Adg容器\e[0m'${adg_num}
+            docker stop adguardhome${adg_num}
+            ;;
+        4)
             echo -e '\e[92m已选择：删除 Adg容器\e[0m'${adg_num}
             del_adg
             ;;
-        3)
+        5)
             echo -e '\e[92m已选择：查看 Adg容器状态\e[0m'
             docker ps -f "name=adguardhome${adg_num}"
             ;;
-        4)
+        6)
             echo -e '\e[92m已选择：查看 Adg容器日志\e[0m'
             docker logs -f "adguardhome${adg_num}"
             ;;
