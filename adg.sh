@@ -76,9 +76,9 @@ change_path () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
-            change_path
             ;;
     esac
+    change_path
 }
 #设定工作路径
 files_path () {
@@ -89,7 +89,6 @@ files_path () {
     read -p "请输入数字[0-3],回车确认 " files_num
     case $files_num in
         0)
-            change_path
             ;;
         1)
             echo -e '\e[92m已选择：创建工作目录\e[0m'
@@ -105,9 +104,9 @@ files_path () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
-            files_path
             ;;
     esac
+    files_path
 }
 #判断工作目录
 files_judge () {
@@ -151,7 +150,9 @@ files_export () {
 #导出工作目录
 export_copy () {
     echo -e '\e[92m开始导出Adg工作目录\e[0m' ${path_num}
-    mkdir ${export_path}/adg
+    if [ ! -d ${export_path}/adg ]; then
+        mkdir ${export_path}/adg
+    fi
     cp -r ${save_path}/adg/workdir${path_num} ${export_path}/adg
     cp -r ${save_path}/adg/confdir${path_num} ${export_path}/adg
     echo -e '\e[91m请检查文件夹是否导出完毕\e[0m'
@@ -175,7 +176,6 @@ files_del () {
             files_del
             ;;
     esac
-    files_path
 }
 #Adg容器选择
 adg_choose () {
@@ -192,9 +192,9 @@ adg_choose () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
-            adg_choose
             ;;
     esac
+    adg_choose
 }
 #Adg功能选择
 adg_function () {
@@ -206,7 +206,6 @@ adg_function () {
     read -p "请输入数字[0-4],回车确认 " function_num
     case $function_num in
         0)
-            adg_choose
             ;;
         1)
             echo -e '\e[92m已选择：创建/更新 Adg容器\e[0m'${adg_num}
@@ -226,9 +225,9 @@ adg_function () {
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
-            adg_function
             ;;
     esac
+    adg_function
 }
 #创建/更新 Adg容器
 build_adg () {
