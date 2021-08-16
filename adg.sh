@@ -234,7 +234,7 @@ adg_function () {
             ;;
         5)
             echo -e '\e[92m已选择：查看 Adg容器状态\e[0m'
-            docker ps -f "name=adguardhome${adg_num}"
+            docker ps -a -f "name=adguardhome${adg_num}"
             ;;
         6)
             echo -e '\e[92m已选择：查看 Adg容器日志\e[0m'
