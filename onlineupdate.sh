@@ -1,4 +1,4 @@
-#---Edit by lone_wind
+#---Build by lone_wind
 #检查更新
 check_update () {
     #wget 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' -O 1035ac73cc4e59e3
