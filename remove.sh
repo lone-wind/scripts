@@ -37,7 +37,7 @@ uninstall_service_unblockmusic () {
 	opkg remove luci-i18n-unblockmusic-zh-cn
 	opkg remove luci-app-unblockmusic
 	opkg remove UnblockNeteaseMusic
-	opkg remove UnblockNeteaseMusic-Go
+	opkg remove UnblockNeteaseMusicGo
 }
 uninstall_service_smartdns () {
 	opkg remove luci-i18n-smartdns-zh-cn
@@ -361,6 +361,6 @@ uninstall_plugin () {
     uninstall_system_autoreboot
     uninstall_system_sqm
     uninstall_system_socat
-    uninstall_theme
+#    uninstall_theme
 }
 uninstall_plugin
