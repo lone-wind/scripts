@@ -339,6 +339,9 @@ uninstall_plugin () {
     uninstall_nas_nfs
     uninstall_nas_p910nd
     uninstall_nas_qBittorrent
+    uninstall_nas_rclone
+    uninstall_nas_samba4
+    uninstall_nas_transmission
     uninstall_nas_usb_printer
     uninstall_nas_verysync
     uninstall_nas_vsftpd
