@@ -113,10 +113,10 @@ uninstall_service_adbyby () {
     opkg remove luci-app-adbyby-plus
     opkg remove adbyby
 }
-uninstall_service_openclash() {
+uninstall_service_openclash () {
     opkg remove luci-app-openclash
 }
-uninstall_service_familycloud() {
+uninstall_service_familycloud () {
     opkg remove luci-app-familycloud
 }
 uninstall_service_openvpn () {
@@ -287,17 +287,16 @@ uninstall_system_socat () {
 	opkg remove socat
 }
 uninstall_theme () {
-	opkg remove luci-theme-rosy
 	opkg remove luci-theme-atmaterial
-	opkg remove luci-theme-argon_new
-	opkg remove luci-theme-bootstrap
-	opkg remove luci-theme-bootstrap-mod
+	opkg remove luci-theme-darkmatter
 	opkg remove luci-theme-edge
+	opkg remove luci-theme-freifunk-generic
 	opkg remove luci-theme-ifit
 	opkg remove luci-theme-material
 	opkg remove luci-theme-opentomato
 	opkg remove luci-theme-opentomcat
 	opkg remove luci-theme-opentopd
+	opkg remove luci-theme-rosy
 }
 
 uninstall_plugin () {
@@ -316,7 +315,11 @@ uninstall_plugin () {
     uninstall_service_nlbwmon
     uninstall_service_nps
     uninstall_service_openclash
+    uninstall_service_openvpn
     uninstall_service_passwall
+    uninstall_service_serverchan
+    uninstall_service_shairplay
+    uninstall_service_smartdns
     uninstall_service_udpxy
     uninstall_service_uhttpd
     uninstall_service_unblockmusic
@@ -358,5 +361,6 @@ uninstall_plugin () {
     uninstall_system_autoreboot
     uninstall_system_sqm
     uninstall_system_socat
+    uninstall_theme
 }
 uninstall_plugin
