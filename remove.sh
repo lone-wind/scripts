@@ -10,8 +10,8 @@ uninstall_overview_wireguard () {
 }
 uninstall_overview_mwan () {
     opkg remove luci-app-syncdial
-    opkg remove luci-i18n-mwan3-zh-cn
     opkg remove luci-i18n-mwan3helper-zh-cn
+    opkg remove luci-i18n-mwan3-zh-cn
     opkg remove luci-app-mwan3helper
 	opkg remove luci-app-mwan3
 	opkg remove mwan3
@@ -97,8 +97,8 @@ uninstall_service_haproxy () {
 	opkg remove haproxy
 }
 uninstall_service_uhttpd () {
+    opkg remove luci-i18n-uhttpd-tcp-zh-cn
 	opkg remove luci-app-uhttpd
-	opkg remove luci-i18n-uhttpd-tcp-zh-cn
 }
 uninstall_service_airplay2 () {
 	opkg remove luci-i18n-airplay2-zh-cn
@@ -137,6 +137,10 @@ uninstall_service_nlbwmon () {
     opkg remove luci-i18n-nlbwmon-zh-cn
     opkg remove luci-app-nlbwmon
     opkg remove nlbwmon
+}
+uninstall_service_guest_wifi () {
+    opkg remove luci-i18n-guest-wifi-zh-cn
+    opkg remove luci-app-guest-wifi
 }
 uninstall_nas_filebrowser () {
     opkg remove luci-i18n-filebrowser-zh-cn
@@ -310,6 +314,7 @@ uninstall_plugin () {
     uninstall_service_frp
     uninstall_service_godproxy
     uninstall_service_gost
+    uninstall_service_guest_wifi
     uninstall_service_haproxy
     uninstall_service_kcptun
     uninstall_service_nlbwmon
