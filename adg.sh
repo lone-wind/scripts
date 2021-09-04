@@ -36,11 +36,11 @@ work_choose () {
 }
 #设定容器路径
 docker_path () {
-    echo -e '\e[92m当前设定的容器路径为\e[0m' ${save_path}
-    echo -e '\e[91m如果不使用或修改默认容器路径，则每次运行脚本，都需要设定容器路径\e[0m'
-    echo "0 --- 返回上级菜单"
-    echo "1 --- 使用当前路径作为容器路径"
-    echo "2 --- 手动设定容器路径"
+    echo -e '\e[92m当前的容器路径为\e[0m' ${save_path}
+    echo -e '\e[91m非Flippy固件请自行设定容器路径\e[0m'
+    echo "0 --- 返回上级菜单 保持默认"
+    echo "1 --- 使用当前路径 作为容器路径"
+    echo "2 --- 查看分区情况 修改容器路径"
     read -p "请输入数字[0-2],回车确认 " docker_num
     case $docker_num in
         0)
@@ -48,18 +48,29 @@ docker_path () {
             ;;
         1)
             echo -e '\e[92m已选择：使用当前路径\e[0m' ${PWD}
-            save_path=${PWD}
+            swap_path=${PWD}
+            curing_path
             ;;
         2)
-            echo -e '\e[92m已选择：手动设定路径\e[0m'
+            echo -e '\e[92m已选择：设定容器路径\e[0m'
             df -h && echo -e '\e[92m请选择足够存放容器的路径\e[0m'
-            read -p "请输入带有“/”的绝对路径回车 " save_path
+            read -p "请输入带有“/”的绝对路径回车 " swap_path
+            curing_path
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-2]\e[0m'
             docker_path
             ;;
     esac
+}
+#固化容器路径
+curing_path () {
+    sed -i "4s.${save_path}.${swap_path}". adg.sh
+    echo -e '\e[92m完成路径修改，请重进脚本\e[0m'
+    if [ -d "adg.sh" ]; then
+        cp adg.sh custom_adg.sh
+    fi
+    exit;
 }
 #修改工作目录
 change_path () {
@@ -205,19 +216,17 @@ adg_choose () {
 #Adg功能选择
 adg_function () {
     echo "0 --- 返回上级菜单"
-    echo "1 --- 创建/更新 Adg容器"
-    echo "2 --- 启动 Adg容器"
-    echo "3 --- 停止 Adg容器"
-    echo "4 --- 删除 Adg容器"
-    echo "5 --- 查看 Adg容器状态"
-    echo "6 --- 查看 Adg容器日志"
-    read -p "请输入数字[0-6],回车确认 " function_num
+    echo "1 --- 创建 Adg容器"
+    echo "2 --- 更新 Adg容器"
+    echo "3 --- 查看 Adg容器"
+    echo "4 --- 修改 Adg容器"
+    read -p "请输入数字[0-4],回车确认 " function_num
     case $function_num in
         0)
             adg_choose
             ;;
         1)
-            echo -e '\e[92m已选择：创建/更新 Adg容器\e[0m'${adg_num}
+            echo -e '\e[92m已选择：创建 Adg容器\e[0m'${adg_num}
             if [ ! -d "${save_path}/adg/workdir${adg_num}" ]; then
                 echo -e '\e[91mAdg工作目录不存在 请创建\e[0m'
                 change_path
@@ -225,24 +234,17 @@ adg_function () {
             build_adg
             ;;
         2)
-            echo -e '\e[92m已选择：启动 Adg容器\e[0m'${adg_num}
-            docker start adguardhome${adg_num}
+            echo -e '\e[92m已选择：更新 Adg容器\e[0m'${adg_num}
+            del_adg
+            build_adg
             ;;
         3)
-            echo -e '\e[92m已选择：停止 Adg容器\e[0m'${adg_num}
-            docker stop adguardhome${adg_num}
+            echo -e '\e[92m已选择：查看 Adg容器\e[0m'${adg_num}
+            status_adg
             ;;
         4)
-            echo -e '\e[92m已选择：删除 Adg容器\e[0m'${adg_num}
-            del_adg
-            ;;
-        5)
-            echo -e '\e[92m已选择：查看 Adg容器状态\e[0m'
-            docker ps -a -f "name=adguardhome${adg_num}"
-            ;;
-        6)
-            echo -e '\e[92m已选择：查看 Adg容器日志\e[0m'
-            docker logs -f "adguardhome${adg_num}"
+            echo -e '\e[92m已选择：修改 Adg容器\e[0m'${adg_num}
+            change_adg
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
@@ -252,8 +254,8 @@ adg_function () {
 }
 #创建/更新 Adg容器
 build_adg () {
-    del_adg
-    echo -e '\e[92m开始创建/更新 Adg容器\e[0m'${adg_num}
+    echo -e '\e[92m开始创建 Adg容器\e[0m'${adg_num}
+    docker pull adguard/adguardhome:latest
     docker run --name adguardhome${adg_num} \
         -v ${save_path}/adg/workdir${adg_num}:/opt/adguardhome/work \
         -v ${save_path}/adg/confdir${adg_num}:/opt/adguardhome/conf \
@@ -268,8 +270,81 @@ del_adg () {
     echo -e '\e[91m开始删除 Adg容器\e[0m'${adg_num}
     docker stop adguardhome${adg_num}
     docker rm adguardhome${adg_num}
-    docker pull  adguard/adguardhome:latest
     docker image prune -f
+}
+#查看Adg容器
+status_adg () {
+    echo "0 --- 返回上级菜单"
+    echo "1 --- 重启 Adg容器"
+    echo "2 --- 停止 Adg容器"
+    echo "3 --- 查看 Adg容器状态"
+    echo "4 --- 查看 Adg容器日志"
+    read -p "请输入数字[0-4],回车确认 " status_num
+    case $status_num in
+        0)
+            adg_function
+            ;;
+        1)
+            echo -e '\e[92m已选择：重启 Adg容器\e[0m'${adg_num}
+            docker restart adguardhome${adg_num}
+            ;;
+        2)
+            echo -e '\e[92m已选择：停止 Adg容器\e[0m'${adg_num}
+            docker stop adguardhome${adg_num}
+            ;;
+        3)
+            echo -e '\e[92m已选择：查看 Adg容器状态\e[0m'
+            docker ps -a -f "name=adguardhome${adg_num}"
+            ;;
+        4)
+            echo -e '\e[92m已选择：查看 Adg容器日志\e[0m'
+            docker logs -f "adguardhome${adg_num}"
+            ;;
+        *)
+            echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
+            ;;
+    esac
+    status_adg
+}
+#修改Adg容器
+change_adg () {
+    echo "0 --- 返回上级菜单"
+    echo "1 --- 修改 管理端口"
+    echo "2 --- 修改 监听端口"
+    echo "3 --- 删除 Adg容器"
+    echo "4 --- 删除 容器镜像"
+    read -p "请输入数字[0-4],回车确认 " change_num
+    case $change_num in
+        0)
+            adg_function
+            ;;
+        1)
+            echo -e '\e[92m已选择：修改 管理端口\e[0m'
+            read -p "请输入端口[0-65536],回车确认 " port_num
+            sed -i "2 c bind_port: ${port_num}" ${save_path}/adg/confdir${adg_num}/AdGuardHome.yaml
+            echo -e '\e[92m已修改管理端口，请重启Adg容器\e[0m'
+            status_adg
+            ;;
+        2)
+            echo -e '\e[92m已选择：修改 监听端口\e[0m'${adg_num}
+            read -p "请输入端口[0-65536],回车确认 " port_num
+            sed -i "17 \  port: ${port_num}" ${save_path}/adg/confdir${adg_num}/AdGuardHome.yaml
+            echo -e '\e[92m已修改监听端口，请重启Adg容器\e[0m'
+            status_adg
+            ;;
+        3)
+            echo -e '\e[92m已选择：删除 Adg容器\e[0m'
+            del_adg
+            ;;
+        4)
+            echo -e '\e[92m已选择：删除 容器镜像\e[0m'
+            docker rmi adguard/adguardhome:latest
+            ;;
+        *)
+            echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
+            ;;
+    esac
+    change_adg
 }
 #start
 default_path
