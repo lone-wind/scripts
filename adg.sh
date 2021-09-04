@@ -328,7 +328,7 @@ change_adg () {
         2)
             echo -e '\e[92m已选择：修改 监听端口\e[0m'${adg_num}
             read -p "请输入端口[0-65536],回车确认 " port_num
-            sed -i "17 \  port: ${port_num}" ${save_path}/adg/confdir${adg_num}/AdGuardHome.yaml
+            sed -i "17 c \  port: ${port_num}" ${save_path}/adg/confdir${adg_num}/AdGuardHome.yaml
             echo -e '\e[92m已修改监听端口，请重启Adg容器\e[0m'
             status_adg
             ;;
