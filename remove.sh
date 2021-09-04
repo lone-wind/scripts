@@ -37,7 +37,7 @@ uninstall_service_unblockmusic () {
 	opkg remove luci-i18n-unblockmusic-zh-cn
 	opkg remove luci-app-unblockmusic
 	opkg remove UnblockNeteaseMusic
-	opkg remove UnblockNeteaseMusicGo
+	opkg remove UnblockNeteaseMusic-Go
 }
 uninstall_service_smartdns () {
 	opkg remove luci-i18n-smartdns-zh-cn
@@ -81,6 +81,7 @@ uninstall_service_gost () {
 	opkg remove gost
 }
 uninstall_service_xlnetacc () {
+    opkg remove luci-i18n-xlnetacc-zh-cn
 	opkg remove luci-app-xlnetacc
 }
 uninstall_service_shairplay () {
@@ -97,7 +98,7 @@ uninstall_service_haproxy () {
 	opkg remove haproxy
 }
 uninstall_service_uhttpd () {
-    opkg remove luci-i18n-uhttpd-tcp-zh-cn
+    opkg remove luci-i18n-uhttpd-zh-cn
 	opkg remove luci-app-uhttpd
 }
 uninstall_service_airplay2 () {
@@ -141,6 +142,13 @@ uninstall_service_nlbwmon () {
 uninstall_service_guest_wifi () {
     opkg remove luci-i18n-guest-wifi-zh-cn
     opkg remove luci-app-guest-wifi
+}
+uninstall_service_pushbot () {
+    opkg remove luci-app-pushbot
+}
+uninstall_service_speederv2 () {
+    opkg remove luci-app-speederv2
+    opkg remove udpspeederv2
 }
 uninstall_nas_filebrowser () {
     opkg remove luci-i18n-filebrowser-zh-cn
@@ -291,6 +299,10 @@ uninstall_system_socat () {
 	opkg remove socat
 }
 uninstall_theme () {
+    opkg remove luci-theme-argon-dark-mod
+    opkg remove luci-theme-argon-light-mod
+    opkg remove luci-theme-atmaterial_new
+    opkg remove luci-theme-bootstrap-mod
 	opkg remove luci-theme-atmaterial
 	opkg remove luci-theme-darkmatter
 	opkg remove luci-theme-edge
@@ -322,9 +334,11 @@ uninstall_plugin () {
     uninstall_service_openclash
     uninstall_service_openvpn
     uninstall_service_passwall
+    uninstall_service_pushbot
     uninstall_service_serverchan
     uninstall_service_shairplay
     uninstall_service_smartdns
+    uninstall_service_speederv2
     uninstall_service_udpxy
     uninstall_service_uhttpd
     uninstall_service_unblockmusic
@@ -366,6 +380,6 @@ uninstall_plugin () {
     uninstall_system_autoreboot
     uninstall_system_sqm
     uninstall_system_socat
-#    uninstall_theme
+    uninstall_theme
 }
 uninstall_plugin
