@@ -67,7 +67,7 @@ docker_path () {
 curing_path () {
     sed -i "4s.${save_path}.${swap_path}". adg.sh
     echo -e '\e[92m完成路径修改，请重进脚本\e[0m'
-    if [ -d "adg.sh" ]; then
+    if [ -d adg.sh ]; then
         cp adg.sh custom_adg.sh
     fi
     exit;
