@@ -18,7 +18,7 @@ wget https://raw.githubusercontent.com/lone-wind/scripts/main/adg.sh && sh adg.s
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/remove.sh && sh remove.sh
 ```
-- 多合一脚本，目前只有双Adg，更多脚本待开发？？
+- 多合一脚本，目前只有双Adg，更多脚本待开发？？(有空再改，貌似联动有问题)
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/script.sh && sh script.sh
 ```
