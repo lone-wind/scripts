@@ -124,7 +124,7 @@ files_path () {
 }
 #判断工作目录
 files_judge () {
-    if [ -d "${save_path}/adg/workdir${path_num}" ]; then
+    if [ -d ${save_path}/adg/workdir${path_num} ]; then
         echo -e '\e[91m当前容器目录下已存在Adg工作目录\e[0m' ${path_num}
         files_path
     else
@@ -227,7 +227,7 @@ adg_function () {
             ;;
         1)
             echo -e '\e[92m已选择：创建 Adg容器\e[0m'${adg_num}
-            if [ ! -d "${save_path}/adg/workdir${adg_num}" ]; then
+            if [ ! -d ${save_path}/adg/workdir${adg_num} ]; then
                 echo -e '\e[91mAdg工作目录不存在 请创建\e[0m'
                 change_path
             fi
@@ -252,7 +252,7 @@ adg_function () {
     esac
     adg_function
 }
-#创建/更新 Adg容器
+#创建 Adg容器
 build_adg () {
     echo -e '\e[92m开始创建 Adg容器\e[0m'${adg_num}
     docker pull adguard/adguardhome:latest
