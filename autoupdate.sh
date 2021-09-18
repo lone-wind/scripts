@@ -1,8 +1,8 @@
 #---Edit by lone_wind
 #检查更新
 check_update () {
-    wget 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' -O 1035ac73cc4e59e3
-    opkg-key add 1035ac73cc4e59e3
+    #wget 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' -O 1035ac73cc4e59e3
+    #opkg-key add 1035ac73cc4e59e3
     opkg update && opkg install pv gzip
 }
 #清理文件
@@ -13,9 +13,9 @@ clean_up() {
 version_choose () {
     echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
     echo "0---Exit退出"
-    echo "1---Docker版"
-    echo "2---Silent frequency默频版"
-    echo "3---formal edition正式版"
+    echo "1---Docker_高大全"
+    echo "2---Stable_稳定精简"
+    echo "3---Formal_正式版"
     read -p "请输入数字[0-3],回车确认 " choose
     case $choose in
         0)
@@ -23,13 +23,14 @@ version_choose () {
             exit;
             ;;
         1)
-            echo -e '\e[92m已选择Docker版本\e[0m'
+            echo -e '\e[92m已选择Docker_高大全\e[0m'
             ;;
         2)
-            echo -e '\e[92m已选择Silent frequency默频版\e[0m'
+            echo -e '\e[92m已选择Stable_稳定精简\e[0m'
+            $choose=5;
             ;;
         3)
-            echo -e '\e[92m已选择formal edition正式版\e[0m'
+            echo -e '\e[92m已选择Formal_正式版\e[0m'
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
@@ -126,8 +127,10 @@ unzip_fireware () {
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
     else
-        echo -e '\e[91m解压固件失败，再次解压\e[0m'
-        unzip_fireware
+        echo -e '\e[91m解压固件失败\e[0m'
+        clean up;
+        exit;
+        #unzip_fireware
     fi
 }
 #升级系统
