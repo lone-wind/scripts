@@ -106,9 +106,9 @@ firmware_r2s () {
 firmware_r4s () {
     echo -e '\e[92m请选择版本或退出\e[0m'
     echo "0 --- 退出"
-    echo "1 --- Docker版"
-    echo "2 --- Overclocking默频版"
-    echo "3 --- Formal edition正式版"
+    echo "1 --- Docker_高大全"
+    echo "2 --- Stable_稳定精简"
+    echo "3 --- Formal_正式版"
     read -p "请输入数字[0-3],回车确认 " firmware
     case $firmware in
         0)
@@ -116,13 +116,14 @@ firmware_r4s () {
             exit;
             ;;
         1)
-            echo -e '\e[92m已选择Docker版本\e[0m'
+            echo -e '\e[92m已选择Docker_高大全\e[0m'
             ;;
         2)
-            echo -e '\e[92m已选择Overclocking默频版\e[0m'
+            echo -e '\e[92m已选择Stable_稳定精简\e[0m'
+            firmware=5;
             ;;
         3)
-            echo -e '\e[92m已选择Formal edition正式版\e[0m'
+            echo -e '\e[92m已选择Formal_正式版\e[0m'
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
@@ -219,7 +220,8 @@ unzip_fireware () {
         firmware_check
         rm -rf openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img.gz
     else
-        echo -e '\e[91m解压固件失败，退出脚本\e[0m'
+        echo -e '\e[91m解压固件失败\e[0m'
+        clean_up;
         exit;
     fi
 }
