@@ -145,7 +145,7 @@ build_files () {
 #导出工作目录
 files_export () {
     echo -e '\e[92m请选择足够存放文件的导出路径\e[0m'
-    du -s ${save_path}/adg/ && df -h
+    du -s -h ${save_path}/adg/ && df -h
     read -p "请输入带有“/”的导出路径并回车 " export_path
     read -p "是否确认导出? [Y/N] " export_choose
     case $export_choose in
