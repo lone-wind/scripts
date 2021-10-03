@@ -3,7 +3,7 @@
 check_update () {
     #wget 'https://git.openwrt.org/?p=keyring.git;a=blob_plain;f=usign/1035ac73cc4e59e3' -O 1035ac73cc4e59e3
     #opkg-key add 1035ac73cc4e59e3
-    opkg update && opkg install gzip pv
+    opkg update && opkg install gzip
 }
 #工作目录
 work_path () {
@@ -215,6 +215,7 @@ unzip_fireware () {
     rm -rf openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img
     echo -e '\e[92m开始解压固件\e[0m'
     pv openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img.gz | gunzip -dc > openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img
+    gunzip openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img.gz
     if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-r${machine}s-${format}-sysupgrade.img	]; then
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
