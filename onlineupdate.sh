@@ -120,7 +120,6 @@ firmware_r4s () {
             ;;
         2)
             echo -e '\e[92m已选择Stable_稳定精简\e[0m'
-            firmware=5;
             ;;
         3)
             echo -e '\e[92m已选择Formal_正式版\e[0m'
