@@ -41,5 +41,4 @@ update_system () {
     clean_up
     machine_choose
 }
-
 update_system

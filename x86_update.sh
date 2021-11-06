@@ -9,9 +9,9 @@ increase_tmp () {
 }
 #工作目录
 work_path () {
-    echo -e '\e[92m请手动指定存放固件的路径\e[0m' && df -h
-    echo -e '\e[91m千万不要使用/overlay\e[0m'
-    echo -e '\e[92m2G内存以上可使用/tmp\e[0m'
+    echo -e '\e[92m请手动指定存放固件的路径(千万不要使用/overlay)\e[0m' && df -h
+    echo -e '\e[92m2G内存以下需要扩容tf卡，2G内存以上可使用/tmp\e[0m'
+    echo -e '\e[91m如果空间不够，解压镜像可能会造成系统卡死\e[0m'
     read -p "输入带有“/”的绝对路径回车 " work_path
     echo "你选择的文件夹路径为${work_path}"
 }
@@ -196,5 +196,4 @@ update_firmware () {
     unzip_fireware  #解压固件
     update_system   #升级系统
 }
-
 update_firmware
