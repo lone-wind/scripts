@@ -19,9 +19,9 @@ work_path () {
 version_choose () {
     echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
     echo "0 --- Exit退出"
-    echo "1 --- Docker_高大全"
-    echo "2 --- Stable_稳定版"
-    echo "3 --- Formal_正式版"
+    echo "1 --- Formal_正式版"
+    echo "2 --- Docker_容器版"
+    echo "3 --- Stable_稳定版"
     read -p "请输入数字[0-3],回车确认 " version_num
     case $version_num in
         0)
@@ -29,13 +29,13 @@ version_choose () {
             exit;
             ;;
         1)
-            echo -e '\e[92m已选择Docker_高大全\e[0m'
+            echo -e '\e[92m已选择Formal_正式版\e[0m'
             ;;
         2)
-            echo -e '\e[92m已选择Stable_稳定版\e[0m'
+            echo -e '\e[92m已选择Docker_容器版\e[0m'
             ;;
         3)
-            echo -e '\e[92m已选择Formal_正式版\e[0m'
+            echo -e '\e[92m已选择Stable_稳定版\e[0m'
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
@@ -115,10 +115,10 @@ version_skip () {
 }
 #固件验证
 firmware_check () {
-    if [ -f openwrt-x86-64-generic-squashfs-combined-efi.img	]; then
+    if [ -f openwrt-x86-64-generic-squashfs-combined-efi.img    ]; then
         echo -e '\e[92m检查升级文件大小\e[0m'
         du -s -h openwrt-x86-64-generic-squashfs-combined-efi.img
-    elif [ -f openwrt-x86-64-generic-squashfs-combined-efi.img.gz	]; then
+    elif [ -f openwrt-x86-64-generic-squashfs-combined-efi.img.gz   ]; then
         echo -e '\e[92m计算固件的sha256sum值\e[0m'
         sha256sum openwrt-x86-64-generic-squashfs-combined-efi.img.gz
         echo -e '\e[92m对比下列sha256sum值，检查固件是否完整\e[0m'
