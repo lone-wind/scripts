@@ -19,7 +19,7 @@ work_path () {
 version_choose () {
     echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
     echo "0 --- Exit退出"
-    echo "1 --- Docker_高大全"
+    echo "1 --- Docker_容器版"
     echo "2 --- Stable_稳定版"
     echo "3 --- Formal_正式版"
     read -p "请输入数字[0-3],回车确认 " version_num
@@ -29,7 +29,7 @@ version_choose () {
             exit;
             ;;
         1)
-            echo -e '\e[92m已选择Docker_高大全\e[0m'
+            echo -e '\e[92m已选择Docker_容器版\e[0m'
             ;;
         2)
             echo -e '\e[92m已选择Stable_稳定版\e[0m'
