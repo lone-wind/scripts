@@ -73,14 +73,13 @@ format_choose () {
 download_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget https://github.com/DHDAXCW/NanoPi-r4s-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-${format}-sysupgrade.img.gz
     wget https://github.com/DHDAXCW/NanoPi-r4s-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
     exist_judge
 }
 #存在判断
 exist_judge () {
-    if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-${format}-sysupgrade.img.gz ]; then
-        echo -e '\e[92m固件已下载\e[0m'
+    if [ -f sha256sums ]; then
+        echo -e '\e[92m已找到当前日期的固件\e[0m'
         echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean$version_num
         version_skip
     elif [ $days == 21 ]; then
@@ -96,7 +95,8 @@ version_skip () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
-            echo "已确认使用"
+            echo "已确认，开始下载固件"
+            wget https://github.com/DHDAXCW/NanoPi-r4s-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-${format}-sysupgrade.img.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
