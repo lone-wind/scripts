@@ -95,7 +95,7 @@ version_skip () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
-            echo "已确认，开始下载固件"
+            echo -e '\e[92m已确认，开始下载固件\e[0m'
             wget https://github.com/DHDAXCW/FusionWRT_x86_x64/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-x86-64-generic-squashfs-combined-efi.img.gz
             ;;
         [nN][oO]|[nN])
