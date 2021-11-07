@@ -73,14 +73,13 @@ format_choose () {
 download_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget https://github.com/DHDAXCW/FusionWRT_x86_x64/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-x86-64-generic-squashfs-combined-efi.img.gz
     wget https://github.com/DHDAXCW/FusionWRT_x86_x64/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
     exist_judge
 }
 #存在判断
 exist_judge () {
-    if [ -f openwrt-x86-64-generic-squashfs-combined-efi.img.gz ]; then
-        echo -e '\e[92m固件已下载\e[0m'
+    if [ -f sha256sums ]; then
+        echo -e '\e[92m已找到当前日期的固件\e[0m'
         echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean$version_num
         version_skip
     elif [ $days == 21 ]; then
@@ -96,7 +95,8 @@ version_skip () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
-            echo "已确认使用"
+            echo "已确认，开始下载固件"
+            wget https://github.com/DHDAXCW/FusionWRT_x86_x64/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-x86-64-generic-squashfs-combined-efi.img.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
