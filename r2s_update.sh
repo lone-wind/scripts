@@ -95,7 +95,7 @@ version_skip () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
-            echo "已确认，开始下载固件"
+            echo -e '\e[92m已确认，开始下载固件\e[0m'
             wget https://github.com/DHDAXCW/NanoPi-R2S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img.gz
             ;;
         [nN][oO]|[nN])
