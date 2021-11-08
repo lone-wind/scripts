@@ -3,21 +3,27 @@
 clean_up () {
     rm -rf openwrt*.img* sha256sums* *update.sh*
 }
-#扩容交换
-increase_tmp () {
+#检查内存
+check_tmp () {
     mount -t tmpfs -o remount,size=100% tmpfs /tmp
+    real_mem=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}') && mini_mem=1572864
+    if [ $real_mem -ge $mini_mem ]; then 
+        work_path=/tmp
+    else
+        work_dir
+    fi
 }
 #工作目录
-work_path () {
-    echo -e '\e[92m请手动指定存放固件的路径(千万不要使用/overlay)\e[0m' && df -h
-    echo -e '\e[92m2G内存以下需要扩容tf卡，2G内存以上可使用/tmp\e[0m'
+work_dir () {
+    echo -e '\e[92m您的内存小于2G，请挑选大于2G的分区\e[0m' && df -h
+    echo -e '\e[91m请避免使用/overlay等系统分区\e[0m'
+    echo -e '\e[92m建议扩容闪存介质后使用/mnt下的路径\e[0m'
     echo -e '\e[91m如果空间不够，解压镜像可能会造成系统卡死\e[0m'
-    read -p "输入带有“/”的绝对路径回车 " work_path
-    echo "你选择的文件夹路径为${work_path}"
+    read -p "请输入上方分区中带有“/”的完整路径回车 " work_path
 }
 #版本选择
 version_choose () {
-    echo -e '\e[92m输入对应数字选择版本或退出\e[0m'
+    echo -e '\e[92m根据数字选择固件版本或退出\e[0m'
     echo "0 --- Exit退出"
     echo "1 --- Docker_容器版"
     echo "2 --- Stable_稳定版"
@@ -45,7 +51,7 @@ version_choose () {
 }
 #格式选择
 format_choose () {
-    echo -e '\e[92m请选择固件格式或退出\e[0m'
+    echo -e '\e[92m根据数字选择固件格式或退出\e[0m'
     echo "0 --- 退出"
     echo "1 --- Ext4"
     echo "2 --- Squashfs"
@@ -69,8 +75,8 @@ format_choose () {
             ;;
     esac
 }
-#固件下载
-download_file () {
+#寻找固件
+search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
     wget https://github.com/DHDAXCW/NanoPi-R2S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
@@ -81,17 +87,17 @@ exist_judge () {
     if [ -f sha256sums ]; then
         echo -e '\e[92m已找到当前日期的固件\e[0m'
         echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean$version_num
-        version_skip
+        firmware_confirm
     elif [ $days == 21 ]; then
         echo -e '\e[91m未找到合适固件，脚本退出\e[0m'
         exit;
     else
         echo -e '\e[91m当前固件不存在，寻找前一天的固件\e[0m'
-        download_file
+        search_file
     fi
 }
-#跳过固件
-version_skip () {
+#固件确认
+firmware_confirm () {
     read -r -p "是否使用此固件? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
@@ -100,7 +106,7 @@ version_skip () {
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
-            download_file
+            search_file
             ;;
         [eE][xX][iI][tT]|[eE])
             echo -e '\e[91m取消固件下载，退出升级\e[0m'
@@ -109,7 +115,7 @@ version_skip () {
             ;;
         *)
             echo -e '\e[91m请输入[Y/N]进行确认，输入[E]退出\e[0m'
-            version_skip
+            firmware_confirm
             ;;
     esac
 }
@@ -187,11 +193,10 @@ update_system () {
 #系统更新
 update_firmware () {
     clean_up        #清理文件
-    increase_tmp    #扩容交换
-    work_path       #工作目录
+    check_tmp       #检查内存
     version_choose  #版本选择
     format_choose   #格式选择
-    download_file   #固件下载
+    search_file     #寻找固件
     firmware_check  #固件验证
     unzip_fireware  #解压固件
     update_system   #升级系统
