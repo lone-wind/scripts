@@ -75,11 +75,16 @@ format_choose () {
             ;;
     esac
 }
+#仓库选择
+repo_set () {
+    repo_url=https://github.com/DHDAXCW/NanoPi-R2S-2021/releases
+    firmware_id=openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img
+}
 #寻找固件
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget https://github.com/DHDAXCW/NanoPi-R2S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
+    wget ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
     exist_judge
 }
 #存在判断
@@ -102,7 +107,7 @@ firmware_confirm () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已确认，开始下载固件\e[0m'
-            wget https://github.com/DHDAXCW/NanoPi-R2S-2021/releases/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img.gz
+            wget ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/${firmware_id}.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
@@ -121,12 +126,12 @@ firmware_confirm () {
 }
 #固件验证
 firmware_check () {
-    if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img  ]; then
+    if [ -f ${firmware_id}  ]; then
         echo -e '\e[92m检查升级文件大小\e[0m'
-        du -s -h openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img
-    elif [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img.gz ]; then
+        du -s -h ${firmware_id}
+    elif [ -f ${firmware_id}.gz ]; then
         echo -e '\e[92m计算固件的sha256sum值\e[0m'
-        sha256sum openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img.gz
+        sha256sum ${firmware_id}.gz
         echo -e '\e[92m对比下列sha256sum值，检查固件是否完整\e[0m'
         grep ${format}-sysupgrade sha256sums
     else
@@ -156,8 +161,8 @@ version_confirm () {
 #解压固件
 unzip_fireware () {
     echo -e '\e[92m开始解压固件\e[0m'
-    gunzip openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img.gz
-    if [ -f openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img ]; then
+    gunzip ${firmware_id}.gz
+    if [ -f ${firmware_id} ]; then
         echo -e '\e[92m已解压出升级文件\e[0m'
         firmware_check
     else
@@ -173,11 +178,11 @@ update_system () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已选择保存配置\e[0m'
-            sysupgrade -v openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img
+            sysupgrade -v ${firmware_id}
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m已选择不保存配置\e[0m'
-            sysupgrade -v -n openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img
+            sysupgrade -v -n ${firmware_id}
             ;;
         [eE][xX][iI][tT]|[eE])
             echo -e '\e[91m取消升级\e[0m'
@@ -196,6 +201,7 @@ update_firmware () {
     check_tmp       #检查内存
     version_choose  #版本选择
     format_choose   #格式选择
+    repo_set        #仓库设置
     search_file     #寻找固件
     firmware_check  #固件验证
     unzip_fireware  #解压固件
