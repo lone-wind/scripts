@@ -12,10 +12,9 @@ machine_choose () {
     echo "1 --- R4S"
     echo "2 --- R2S"
     echo "3 --- X86"
-    echo "4 --- G4C"
-    echo "5 --- DN2"
-    echo "6 --- DN1"
-    read -p "请输入数字[0-6],回车确认 " machine_num
+    echo "4 --- DN2"
+    echo "5 --- DN1"
+    read -p "请输入数字[0-5],回车确认 " machine_num
     case $machine_num in
         0)
             echo -e '\e[91m退出脚本，升级结束\e[0m'
@@ -34,19 +33,15 @@ machine_choose () {
             wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/x86_update.sh && sh x86_update.sh
             ;;
         4)
-            echo -e '\e[92m已选择G4C\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/g4c_update.sh && sh g4c_update.sh
-            ;;
-        5)
             echo -e '\e[92m已选择DN2\e[0m'
             wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn2_update.sh && sh dn2_update.sh
             ;;
-        6)
+        5)
             echo -e '\e[92m已选择DN1\e[0m'
             wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn1_update.sh && sh dn1_update.sh
             ;;
         *)
-            echo -e '\e[91m非法输入,请输入数字[0-6]\e[0m'
+            echo -e '\e[91m非法输入,请输入数字[0-5]\e[0m'
             machine_choose
             ;;
     esac
