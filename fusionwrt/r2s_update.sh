@@ -10,7 +10,7 @@ check_tmp () {
     if [ $real_mem -ge $mini_mem ]; then 
         work_path=/tmp
     else
-        work_dir
+        echo -e '\e[92m您的内存小于1G，暂不支持在线升级\e[0m' && exit;
     fi
 }
 #工作目录
