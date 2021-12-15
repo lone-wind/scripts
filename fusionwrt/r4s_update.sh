@@ -28,7 +28,7 @@ version_choose () {
     echo "1 --- Docker_容器版"
     echo "2 --- Stable_稳定版"
     echo "3 --- Formal_正式版"
-    echo "4 --- Stable_精简版"
+    echo "4 --- Stable_极简版"
     read -p "请输入数字[0-4],回车确认 " version_num
     case $version_num in
         0)
@@ -45,7 +45,7 @@ version_choose () {
             echo -e '\e[92m已选择Formal_正式版\e[0m'
             ;;
         4)
-            echo -e '\e[92m已选择Stable_精简版\e[0m'
+            echo -e '\e[92m已选择Stable_极简版\e[0m'
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
