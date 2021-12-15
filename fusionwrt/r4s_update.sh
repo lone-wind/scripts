@@ -29,7 +29,7 @@ version_choose () {
     echo "2 --- Stable_稳定版"
     echo "3 --- Formal_正式版"
     echo "4 --- Stable_精简版"
-    read -p "请输入数字[0-3],回车确认 " version_num
+    read -p "请输入数字[0-4],回车确认 " version_num
     case $version_num in
         0)
             echo -e '\e[91m退出脚本，升级结束\e[0m'
@@ -48,7 +48,7 @@ version_choose () {
             echo -e '\e[92m已选择Stable_精简版\e[0m'
             ;;
         *)
-            echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m'
+            echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m'
             version_choose
             ;;
     esac
