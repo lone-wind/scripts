@@ -78,7 +78,7 @@ format_choose () {
 #仓库选择
 repo_set () {
     repo_url=https://github.com/DHDAXCW/FusionWRT_x86_x64/releases
-    firmware_id=openwrt-x86-legacy-generic-squashfs-combined-efi.img
+    firmware_id=openwrt-x86-64-generic-squashfs-combined-efi.img
 }
 #寻找固件
 search_file () {
