@@ -81,6 +81,7 @@ format_choose () {
 }
 #仓库选择
 repo_set () {
+    proxy_url=https://ghproxy.com
     repo_url=https://github.com/DHDAXCW/NanoPi-R4S-2021/releases
     firmware_id=openwrt-rockchip-armv8-friendlyarm_nanopi-R4S-${format}-sysupgrade.img
 }
@@ -88,7 +89,7 @@ repo_set () {
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     #echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget -q ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
+    wget -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
     exist_judge
 }
 #存在判断
@@ -111,7 +112,7 @@ firmware_confirm () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已确认，开始下载固件\e[0m'
-            wget ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/${firmware_id}.gz
+            wget ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/${firmware_id}.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m'
@@ -182,11 +183,11 @@ update_system () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已选择保存配置\e[0m'
-            sysupgrade -v ${firmware_id}
+            sysupgrade -F -v ${firmware_id}
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m已选择不保存配置\e[0m'
-            sysupgrade -v -n ${firmware_id}
+            sysupgrade -F -v -n ${firmware_id}
             ;;
         [eE][xX][iI][tT]|[eE])
             echo -e '\e[91m取消升级\e[0m'
