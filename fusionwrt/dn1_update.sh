@@ -68,7 +68,8 @@ format_choose () {
 repo_set () {
     proxy_url=https://ghproxy.com
     repo_url=https://github.com/DHDAXCW/DoorNet_Series/releases
-    firmware_id=openwrt-rockchip-armv8-embedfire_doornet1-${format}-sysupgrade.img
+    firmware_id=openwrt-rockchip-armv8-embedfire_doornet1-${format}-sysupgrade.img.gz
+}
 #寻找固件
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
