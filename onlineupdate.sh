@@ -22,23 +22,23 @@ machine_choose () {
             ;;
         1)
             echo -e '\e[92m已选择R4S\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r4s_update.sh && sh r4s_update.sh
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r4s_update.sh && sh r4s_update.sh
             ;;
         2)
             echo -e '\e[92m已选择R2S\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r2s_update.sh && sh r2s_update.sh
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r2s_update.sh && sh r2s_update.sh
             ;;
         3)
             echo -e '\e[92m已选择X86\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/x86_update.sh && sh x86_update.sh
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/x86_update.sh && sh x86_update.sh
             ;;
         4)
             echo -e '\e[92m已选择DN2\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn2_update.sh && sh dn2_update.sh
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn2_update.sh && sh dn2_update.sh
             ;;
         5)
             echo -e '\e[92m已选择DN1\e[0m'
-            wget https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn1_update.sh && sh dn1_update.sh
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/dn1_update.sh && sh dn1_update.sh
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-5]\e[0m'
