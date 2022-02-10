@@ -54,6 +54,6 @@ docker_incr () {
 }
 #程序开始
 incr_begin () {
-hd_check && file_check && docker_check && df -h
+hd_check && file_check && docker_check && df -h | grep /dev/${hd_id}
 }
 incr_begin
