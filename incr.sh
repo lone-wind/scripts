@@ -5,9 +5,8 @@ hd_check () {
     hd_id='mmcblk0' && part_id='mmcblk0p3'
     if [ ! -d /sys/block/$hd_id ]; then
         hd_id='sda' && part_id='sda3'
-    else
-        part_check
     fi
+    part_check
 }
 #检测分区
 part_check () {
@@ -52,7 +51,7 @@ docker_check () {
         else
             sed -i 's?/opt?/mnt/mmcblk0p3?' /etc/config/dockerd
         fi
-    /etc/init.d/dockerd restart
+        /etc/init.d/dockerd restart
     fi
 }
 #程序开始
