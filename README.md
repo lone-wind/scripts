@@ -8,6 +8,7 @@ wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh &&
 - 适用Openwrt扩容（新建分区），Docker根目录为/opt/docker的固件，将会修改Docker根目录使其挂载至新分区。
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/incr.sh && sh incr.sh
+```
 - 适用于含Docker的Openwrt固件，安装/操作 双Adg容器。（默认路径为Flippy Op固件的/mnt/mmcblk2p4）
 - 其余设备食用，需手动设定容器目录(修改后会自动退出 输入sh adg.sh重新运行脚本），或者修改default_path模块中的save_path。
 ```
