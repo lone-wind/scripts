@@ -50,7 +50,7 @@ docker_check () {
 #容器扩容
 docker_incr () {
     sed -i 's?/opt?/mnt/mmcblk0p3?' /etc/config/dockerd
-    /etc/init.d/dockerd start
+    /etc/init.d/dockerd restart
 }
 #程序开始
 incr_begin () {
