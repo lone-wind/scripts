@@ -41,7 +41,8 @@ file_check () {
     mount /dev/${part_id} /mnt/${part_id}
     if [ ! -d /mnt/${part_id}/docker ]; then
         mkdir /mnt/${part_id}/docker
-    fi 
+    fi
+    /etc/init.d/dockerd start
 }
 #检测容器
 docker_check () {
@@ -51,8 +52,8 @@ docker_check () {
         else
             sed -i 's?/opt?/mnt/mmcblk0p3?' /etc/config/dockerd
         fi
+    /etc/init.d/dockerd restart
     fi
-    /etc/init.d/dockerd start && /etc/init.d/dockerd restart
 }
 #程序开始
 incr_begin () {
