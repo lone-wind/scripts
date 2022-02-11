@@ -29,7 +29,7 @@ EOF
 }
 #检测文件
 file_check () {
-    if cat /proc/mounts | grep /mnt/${part_id} | head -0; then
+    if cat /proc/mounts | grep /mnt/${part_id}\ ext4; then
         echo -e '\e[92m新挂载点正常\e[0m'
         continue;
     else
