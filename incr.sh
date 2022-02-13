@@ -1,3 +1,4 @@
+#!/bin/bash
 #Build by lone-wind
 rm -rf incr.sh
 #检测硬盘
