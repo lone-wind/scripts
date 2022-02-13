@@ -1,3 +1,4 @@
+#!/bin/bash
 #Build by lone-wind
 #默认容器路径
 default_path () {
