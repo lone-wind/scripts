@@ -1,3 +1,4 @@
+#!/bin/bash
 #Build by lone_wind
 #清理文件
 clean_up () {
