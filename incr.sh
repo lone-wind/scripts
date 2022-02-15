@@ -17,14 +17,29 @@ part_check () {
         echo -e '\e[92m分区正常\e[0m'
     else
         echo -e '\e[91m分区异常，开始修改\e[0m'
-        part_incr
+        if lscpu | grep -q arm; then
+            part_incr_arm
+        else
+            part_incr_x86
+        fi
     fi
 }
 #新建分区
-part_incr () {
+part_incr_x86 () {
     block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
     fdisk /dev/${hd_id} <<EOF
     n
+    3
+    $(($block_num+1))
+
+    w
+EOF
+}
+part_incr_arm () {
+    block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
+    fdisk /dev/${hd_id} <<EOF
+    n
+    e
     3
     $(($block_num+1))
 
