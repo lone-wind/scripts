@@ -39,7 +39,7 @@ part_incr_arm () {
     block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
     fdisk /dev/${hd_id} <<EOF
     n
-    e
+    p
     3
     $(($block_num+1))
 
