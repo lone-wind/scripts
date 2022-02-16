@@ -53,8 +53,10 @@ file_check () {
         continue;
     else
         echo -e '\e[91m新挂载点异常，开始修改\e[0m'
-        /etc/init.d/dockerd start
-        /etc/init.d/dockerd stop
+        if opkg list | grep -q "docker"; then
+            /etc/init.d/dockerd start
+            /etc/init.d/dockerd stop
+        fi
         if cat /proc/mounts | grep -q "/dev/${part_id}"; then
             umount /dev/${part_id}
         fi
@@ -64,7 +66,6 @@ file_check () {
             mkdir /mnt/${part_id}/docker
         fi
         mount /dev/${part_id} /mnt/${part_id}
-        /etc/init.d/dockerd start
     fi
 }
 #检测容器
