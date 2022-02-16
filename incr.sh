@@ -17,7 +17,7 @@ part_check () {
         echo -e '\e[92m分区正常\e[0m'
     else
         echo -e '\e[91m分区异常，开始修改\e[0m'
-        if lscpu | grep -q arm; then
+        if lscpu | grep -i -q arm; then
             part_incr_arm
         else
             part_incr_x86
