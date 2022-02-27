@@ -210,6 +210,10 @@ uninstall_service_mosdns () {
 	opkg remove luci-app-mosdns
 	opkg remove mosdns
 }
+uninstall_service_ikoolproxy () {
+	opkg remove luci-app-ikoolproxy
+	opkg remove ikoolproxy
+}
 uninstall_nas_filebrowser () {
     opkg remove luci-i18n-filebrowser-zh-cn
 	opkg remove luci-app-filebrowser
@@ -417,6 +421,7 @@ uninstall_vpn_openvpn_server () {
 	opkg remove luci-app-openvpn-server
 }
 uninstall_vpn_ocserv () {
+	opkg remove luci-i18n-ocserv-zh-cn
 	opkg remove luci-app-ocserv
 	opkg remove ocserv
 }
@@ -491,6 +496,7 @@ uninstall_plugin () {
     uninstall_service_gost
     uninstall_service_guest_wifi
     uninstall_service_haproxy
+	uninstall_service_ikoolproxy
     uninstall_service_jd
     uninstall_service_kcptun
     uninstall_service_mosdns
