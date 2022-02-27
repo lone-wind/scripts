@@ -496,7 +496,7 @@ uninstall_plugin () {
     uninstall_service_gost
     uninstall_service_guest_wifi
     uninstall_service_haproxy
-	uninstall_service_ikoolproxy
+    uninstall_service_ikoolproxy
     uninstall_service_jd
     uninstall_service_kcptun
     uninstall_service_mosdns
