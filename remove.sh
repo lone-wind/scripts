@@ -1,30 +1,30 @@
 #Build by lone-wind
 opkg list_installed
 uninstall_overview_wireguard () {
-    opkg remove wireguard
-    opkg remove luci-i18n-wireguard-zh-cn
-    opkg remove luci-i18n-wireguard-pt-br
-    opkg remove luci-i18n-wireguard-ja
-    opkg remove luci-i18n-wireguard-ru
-    opkg remove luci-i18n-wireguard-sv
-    opkg remove luci-app-wireguard
-    opkg remove luci-proto-wireguard
-    opkg remove wireguard-tools
+	opkg remove wireguard
+	opkg remove luci-i18n-wireguard-zh-cn
+	opkg remove luci-i18n-wireguard-pt-br
+	opkg remove luci-i18n-wireguard-ja
+	opkg remove luci-i18n-wireguard-ru
+	opkg remove luci-i18n-wireguard-sv
+	opkg remove luci-app-wireguard
+	opkg remove luci-proto-wireguard
+	opkg remove wireguard-tools
 	opkg remove kmod-wireguard
 }
 uninstall_overview_mwan () {
-    opkg remove luci-app-syncdial
-    opkg remove luci-i18n-mwan3helper-zh-cn
-    opkg remove luci-i18n-mwan3-ru
-    opkg remove luci-i18n-mwan3-zh-tw
-    opkg remove luci-i18n-mwan3-ja
-    opkg remove luci-i18n-mwan3-zh-cn
-    opkg remove luci-app-mwan3helper
+	opkg remove luci-app-syncdial
+	opkg remove luci-i18n-mwan3helper-zh-cn
+	opkg remove luci-i18n-mwan3-ru
+	opkg remove luci-i18n-mwan3-zh-tw
+	opkg remove luci-i18n-mwan3-ja
+	opkg remove luci-i18n-mwan3-zh-cn
+	opkg remove luci-app-mwan3helper
 	opkg remove luci-app-mwan3
 	opkg remove mwan3
 }
 uninstall_system_autoreboot () {
-    opkg remove luci-i18n-autoreboot-zh-cn
+	opkg remove luci-i18n-autoreboot-zh-cn
 	opkg remove luci-app-autoreboot
 }
 uninstall_service_godproxy () {
@@ -85,7 +85,7 @@ uninstall_service_wifischedule () {
 	opkg remove luci-i18n-wifischedule-ja
 	opkg remove luci-i18n-wifischedule-ru
 	opkg remove luci-i18n-wifischedule-sv
-    opkg remove luci-i18n-wifischedule-zh-cn
+	opkg remove luci-i18n-wifischedule-zh-cn
 	opkg remove luci-app-wifischedule
 	opkg remove wifischedule
 }
@@ -461,8 +461,8 @@ uninstall_system_socat () {
 	opkg remove socat
 }
 uninstall_theme () {
-    opkg remove luci-theme-argon-dark-mod
-    opkg remove luci-theme-argon-light-mod
+    #opkg remove luci-theme-argon-dark-mod
+    #opkg remove luci-theme-argon-light-mod
     opkg remove luci-theme-atmaterial_new
     opkg remove luci-theme-bootstrap-mod
 	opkg remove luci-theme-atmaterial
