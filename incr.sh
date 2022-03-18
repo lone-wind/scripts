@@ -6,8 +6,12 @@ hd_check () {
     hd_id='mmcblk0'
     part_id='mmcblk0p3'
     if [ ! -d /sys/block/$hd_id ]; then
-        hd_id='sda'
-        part_id='sda3'
+        hd_id='mmcblk1'
+        part_id='mmcblk1p3'
+        if [ ! -d /sys/block/$hd_id ]; then
+            hd_id='sda'
+            part_id='sda3'
+        fi
     fi
     part_check
 }
@@ -76,7 +80,7 @@ docker_check () {
             continue;
         else
             echo -e '\e[91mDocker根目录异常，开始修改\e[0m'
-            sed -i 's?/opt?/mnt/mmcblk0p3?' /etc/config/dockerd
+            sed -i "s?/opt?/mnt/${part_id}?" /etc/config/dockerd
             /etc/init.d/dockerd start
             /etc/init.d/dockerd restart
         fi
