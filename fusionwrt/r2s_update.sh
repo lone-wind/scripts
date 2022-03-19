@@ -66,7 +66,7 @@ format_choose () {
 #仓库选择
 repo_set () {
     proxy_url=https://ghproxy.com
-    repo_url=https://github.com/DHDAXCW/NanoPi-R2S-2021/releases
+    repo_url=https://github.com/DHDAXCW/NanoPi-R2S/releases
     firmware_id=openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img
 }
 #寻找固件
