@@ -2,25 +2,13 @@
 #Build by lone_wind
 #清理文件
 clean_up () {
-    rm -rf openwrt*.img* sha256sums* *update.sh*
+    rm -rf openwrt*.img* ${img_path}/openwrt*.img* sha256sums* *update.sh*
 }
-#检查内存
-check_tmp () {
-    mount -t tmpfs -o remount,size=100% tmpfs /tmp
-    real_mem=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}') && mini_mem=1572864
-    if [ $real_mem -ge $mini_mem ]; then 
-        work_path=/tmp
-    else
-        echo -e '\e[91m您的内存小于2G，暂不支持在线升级，请手动卡刷\e[0m' && exit;
+#容器检查
+docker_check () {
+    if opkg list | grep -q "docker"; then
+        /etc/init.d/dockerd stop
     fi
-}
-#工作目录
-work_dir () {
-    echo -e '\e[92m您的内存小于2G，请挑选大于2G的分区\e[0m' && df -h
-    echo -e '\e[91m请避免使用/overlay等系统分区\e[0m'
-    echo -e '\e[92m建议扩容闪存介质后使用/mnt下的路径\e[0m'
-    echo -e '\e[91m如果空间不够，解压镜像可能会造成系统卡死\e[0m'
-    read -p "请输入上方分区中带有“/”的完整路径回车 " work_path
 }
 #版本选择
 version_choose () {
@@ -111,8 +99,8 @@ firmware_confirm () {
 }
 #固件验证
 firmware_check () {
-    if [ -f ${firmware_id}  ]; then
-        echo -e '\e[92m检查升级文件大小\e[0m' && du -sh ${firmware_id}
+    if [ -f ${img_path}/${firmware_id}  ]; then
+        echo -e '\e[92m检查升级文件大小\e[0m' && du -sh ${img_path}/${firmware_id}
     elif [ -f ${firmware_id}.gz ]; then
         echo -e '\e[92m计算固件的sha256sum值\e[0m' && sha256sum ${firmware_id}.gz
         echo -e '\e[92m对比下列sha256sum值，检查固件是否完整\e[0m' && grep -i ${firmware_id}.gz sha256sums
@@ -138,8 +126,8 @@ version_confirm () {
 }
 #解压固件
 unzip_fireware () {
-    echo -e '\e[92m开始解压固件\e[0m' && gunzip ${firmware_id}.gz
-    if [ -f ${firmware_id} ]; then
+    echo -e '\e[92m开始解压固件\e[0m' && gzip -cd ${firmware_id}.gz > ${img_path}/${firmware_id}
+    if [ -f ${img_path}/${firmware_id} ]; then
         echo -e '\e[92m已解压出升级文件\e[0m' && firmware_check
     else
         echo -e '\e[91m解压固件失败\e[0m' && clean_up && exit;
@@ -151,10 +139,10 @@ update_system () {
     read -r -p "是否保存配置? [Y/N]确认 [E]退出 " skip
     case $skip in
         [yY][eE][sS]|[yY])
-            echo -e '\e[92m已选择保存配置\e[0m' && sysupgrade -F -v ${firmware_id}
+            echo -e '\e[92m已选择保存配置\e[0m' && sysupgrade -F ${firmware_id}
             ;;
         [nN][oO]|[nN])
-            echo -e '\e[91m已选择不保存配置\e[0m' && sysupgrade -F -v -n ${firmware_id}
+            echo -e '\e[91m已选择不保存配置\e[0m' && sysupgrade -F -n ${firmware_id}
             ;;
         [eE][xX][iI][tT]|[eE])
             echo -e '\e[91m取消升级\e[0m' && clean_up && exit;
@@ -164,16 +152,28 @@ update_system () {
             ;;
     esac
 }
+#刷写系统
+dd_system () {
+    echo -e '\e[92m开始升级系统\e[0m'
+    dd if=${img_path}/${firmware_id} of=$(hd_id)
+    reboot
+}
 #系统更新
 update_firmware () {
-    clean_up        #清理文件
-    check_tmp       #检查内存
-    version_choose  #版本选择
-    format_choose   #格式选择
-    repo_set        #仓库设置
-    search_file     #寻找固件
-    firmware_check  #固件验证
-    unzip_fireware  #解压固件
-    update_system   #升级系统
+    img_path=/tmp && clean_up && docker_check
+    mount -t tmpfs -o remount,size=100% tmpfs /tmp
+    real_mem=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}') && mini_mem=1572864
+    if [ $real_mem -ge $mini_mem ]; then 
+        work_path=/tmp && version_choose
+        format_choose && repo_set && search_file && firmware_check && unzip_fireware
+        update_system
+    else
+        echo -e '\e[91m您的内存小于2G，升级将不保留配置\e[0m'
+        work_path=/root && version_num=3
+        format_choose && repo_set && search_file && firmware_check && unzip_fireware
+        hd_id=$(df / | tail -n1 | awk '{print $1}' | awk '{print substr($1, 1, length($1)-2)}')
+        dd_system
+    fi
 }
+
 update_firmware
