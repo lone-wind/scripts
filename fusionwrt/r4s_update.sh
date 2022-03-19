@@ -10,6 +10,16 @@ docker_check () {
         /etc/init.d/dockerd stop
     fi
 }
+#硬盘检查
+hd_check () {
+    hd_id='mmcblk0'
+    if [ ! -d /sys/block/$hd_id ]; then
+        hd_id='mmcblk1'
+        if [ ! -d /sys/block/$hd_id ]; then
+            hd_id='sda'
+        fi
+    fi
+}
 #版本选择
 version_choose () {
     echo -e '\e[92m根据数字选择固件版本或退出\e[0m'
@@ -155,12 +165,12 @@ update_system () {
 #刷写系统
 dd_system () {
     echo -e '\e[92m开始升级系统\e[0m'
-    dd if=${img_path}/${firmware_id} of=$(hd_id)
+    dd if=${img_path}/${firmware_id} of=/dev/${hd_id}
     reboot
 }
 #系统更新
 update_firmware () {
-    img_path=/tmp && clean_up && docker_check
+    img_path=/tmp && clean_up && docker_check && hd_check
     mount -t tmpfs -o remount,size=100% tmpfs /tmp
     real_mem=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}') && mini_mem=1572864
     if [ $real_mem -ge $mini_mem ]; then 
@@ -171,7 +181,6 @@ update_firmware () {
         echo -e '\e[91m您的内存小于2G，升级将不保留配置\e[0m'
         work_path=/root && version_num=2
         format_choose && repo_set && search_file && firmware_check && unzip_fireware
-        hd_id=$(df / | tail -n1 | awk '{print $1}' | awk '{print substr($1, 1, length($1)-2)}')
         dd_system
     fi
 }
