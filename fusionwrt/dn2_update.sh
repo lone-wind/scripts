@@ -165,7 +165,7 @@ update_system () {
 #刷写系统
 dd_system () {
     echo -e '\e[92m开始升级系统\e[0m'
-    dd if=${img_path}/${firmware_id} of=/dev/$(hd_id)
+    dd if=${img_path}/${firmware_id} of=/dev/${hd_id} bs=1M
     reboot
 }
 #系统更新
