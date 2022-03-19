@@ -164,9 +164,9 @@ update_system () {
 }
 #刷写系统
 dd_system () {
-    echo -e '\e[92m开始升级系统\e[0m'
-    dd if=${img_path}/${firmware_id} of=/dev/$(hd_id)
-    reboot
+    echo -e '\e[92m开始刷入系统\e[0m'
+    dd if=${img_path}/${firmware_id} of=/dev/${hd_id} bs=1M
+    echo -e '\e[92m刷入系统完毕，请手动断电再上电\e[0m'
 }
 #系统更新
 update_firmware () {
