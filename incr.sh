@@ -55,9 +55,7 @@ file_check () {
     else
         echo -e '\e[91m新挂载点异常，开始修改\e[0m'
         if opkg list | grep -q "docker"; then
-            if docker info | grep -q "ERROR"; then
-                continue;
-            else
+            if /etc/init.d/dockerd status | grep -q "running"; then
                 /etc/init.d/dockerd stop
             fi
         fi
@@ -81,7 +79,7 @@ docker_check () {
         else
             echo -e '\e[91mDocker根目录异常，开始修改\e[0m'
             sed -i "s?/opt?/mnt/${part_id}?" /etc/config/dockerd
-            if docker info | grep -q "ERROR"; then
+            if /etc/init.d/dockerd status | grep -q "inactive"; then
                 /etc/init.d/dockerd start
             fi
         fi
