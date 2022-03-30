@@ -1,7 +1,7 @@
 # 提示
 ## 如果不清楚本仓库的代码的作用，请不要随意下载并运行
 # 脚本说明
-- 适用于骷髅头FusionWrt固件(2G内存以下需要扩容tf卡)进行在线升级，脚本中可选R4S/R2S/X86。
+- 适用于骷髅头FusionWrt固件进行在线升级，脚本中可选R4S/R2S/X86。
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh && sh onlineupdate.sh
 ```
