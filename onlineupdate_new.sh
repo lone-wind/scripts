@@ -153,7 +153,7 @@ firmware_check () {
         if diff sha256sums_real sha256sums_true; then
             echo -e '\e[92msha256sum校验通过\e[0m'
         else
-            echo -e '\e[91msha256sum校验失败\e[0m' && exit;ss
+            echo -e '\e[91msha256sum校验失败\e[0m' && exit;
         fi
     else
         echo -e '\e[91m没有相关升级文件，请检查网络\e[0m' && exit;
