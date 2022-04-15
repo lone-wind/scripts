@@ -3,12 +3,13 @@
 rm -rf incr.sh
 #检测硬盘
 hd_check () {
-    hd_id='mmcblk0' && part_id='mmcblk0p3'
-    if [ ! -d /sys/block/$hd_id ]; then
-        hd_id='mmcblk1' && part_id='mmcblk1p3'
-        if [ ! -d /sys/block/$hd_id ]; then
-            hd_id='sda' && part_id='sda3'
-        fi
+    hd_id=$(df /boot | tail -n1 | awk '{print $1}' | awk '{print substr($1, 6, length($1)-7)}')
+    if [[ $hd_id =~ "mmcblk" ]]; then
+        part_id="${hd_id}p3"
+    elif [[ $hd_id =~ "sd" ]]; then
+        part_id="${hd_id}3"
+    else 
+        echo -e '\e[91m无法识别硬盘，退出\e[0m' && exit;
     fi
     part_check
 }
@@ -78,7 +79,8 @@ docker_check () {
             continue;
         else
             echo -e '\e[91mDocker根目录异常，开始修改\e[0m'
-            sed -i "s?/opt?/mnt/${part_id}?" /etc/config/dockerd
+            docker_id=$(cat /etc/config/dockerd | grep data_root | awk '{print substr($3, 2, length($3)-10)}')
+            sed -i "s?${docker_id}?/mnt/${part_id}?" /etc/config/dockerd
             if /etc/init.d/dockerd status | grep -q "inactive"; then
                 /etc/init.d/dockerd start
             fi
