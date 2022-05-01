@@ -2,7 +2,7 @@
 #Build by lone_wind
 #清理文件
 clean_up () {
-    rm -rf openwrt*.img* ${img_path}/openwrt*.img* sha256sums* *update.sh*
+    rm -rf openwrt*.img* ${img_path}/openwrt*.img* sha256sums* *update*.sh*
 }
 #容器检查
 docker_check () {
