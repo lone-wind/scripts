@@ -3,11 +3,11 @@
 rm -rf incr.sh
 #检测硬盘
 hd_check () {
-    hd_id=$(df /boot | tail -n1 | awk '{print $1}' | awk '{print substr($1, 6, length($1)-7)}')
+    hd_id=$(df | grep /dev | tail -n1 | awk '{print $1}' | awk '{print substr($1, 6, length($1)-7)}')
     if [[ $hd_id =~ "mmcblk" ]]; then
         part_id="${hd_id}p3"
     elif [[ $hd_id =~ "sd" ]]; then
-        hd_id=$(df /boot | tail -n1 | awk '{print $1}' | awk '{print substr($1, 6, length($1)-6)}')
+        hd_id=$(df | grep /dev | tail -n1 | awk '{print $1}' | awk '{print substr($1, 6, length($1)-6)}')
         part_id="${hd_id}3"
     else 
         echo -e '\e[91m无法识别硬盘，退出\e[0m' && exit;
