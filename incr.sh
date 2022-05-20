@@ -4,13 +4,12 @@ rm -rf incr.sh
 #检测硬盘
 hd_check () {
     if [ ! -d /sys/block/mmcblk ]; then
-        hd_id=$(df | grep /dev/mmcblk | tail -n1 | awk '{print substr($1, 6, length($1)-7)}')
+        hd_id=$(df | grep /dev/mmcblk | tail -n1 | awk '{print substr($1, 6, length($1)-7)}') && part_id=${hd_id}p3
     elif [ ! -d /sys/block/sd ]; then
-        hd_id=$(df | grep /dev/sd | tail -n1 | awk '{print substr($1, 6, length($1)-6)}')
+        hd_id=$(df | grep /dev/sd | tail -n1 | awk '{print substr($1, 6, length($1)-6)}') && part_id=${hd_id}3
     else 
         echo -e '\e[91m无法识别硬盘，退出\e[0m' && exit;
     fi
-    part_id=$(df | grep /dev/${hd_id} | tail -n1 | awk '{print substr($1, 6, length($1)-5)}')
     part_check
 }
 #检测分区
