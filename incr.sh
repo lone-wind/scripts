@@ -3,12 +3,14 @@
 rm -rf incr.sh
 #检测硬盘
 hd_check () {
-    if [ ! -d /sys/block/mmcblk ]; then
+    if [ ! $(df | grep mmcblk) ]; then
+        if [ ! $(df | grep sd) ]; then
+            echo -e '\e[91m无法识别硬盘，退出\e[0m' && exit;
+        else
+            hd_id=$(df | grep /dev/sd | tail -n1 | awk '{print substr($1, 6, length($1)-6)}') && part_id=${hd_id}3
+        fi
+    else
         hd_id=$(df | grep /dev/mmcblk | tail -n1 | awk '{print substr($1, 6, length($1)-7)}') && part_id=${hd_id}p3
-    elif [ ! -d /sys/block/sd ]; then
-        hd_id=$(df | grep /dev/sd | tail -n1 | awk '{print substr($1, 6, length($1)-6)}') && part_id=${hd_id}3
-    else 
-        echo -e '\e[91m无法识别硬盘，退出\e[0m' && exit;
     fi
     part_check
 }
@@ -27,7 +29,11 @@ part_check () {
 }
 #新建分区
 part_incr_x86 () {
-    block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
+    if [ ! $(echo ${part_id} | grep p) ]; then
+        block_num=$(fdisk -l | grep /dev/${hd_id}2 | awk '{print $3}')
+    else
+        block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
+    fi
     fdisk /dev/${hd_id} <<EOF
     n
     3
@@ -37,7 +43,11 @@ part_incr_x86 () {
 EOF
 }
 part_incr_arm () {
-    block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
+    if [ ! $(echo ${part_id} | grep p) ]; then
+        block_num=$(fdisk -l | grep /dev/${hd_id}2 | awk '{print $3}')
+    else
+        block_num=$(fdisk -l | grep /dev/${hd_id}p2 | awk '{print $3}')
+    fi
     fdisk /dev/${hd_id} <<EOF
     n
     p
@@ -95,5 +105,4 @@ sleep 5
 echo -e '\e[92m脚本结束，请查看分区\e[0m'
 df -h | grep /dev/${part_id}
 }
-
 incr_begin
