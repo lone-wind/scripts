@@ -84,7 +84,7 @@ machine_choose () {
             ;;
         2)
             echo -e '\e[92m已选择R2S\e[0m'
-            repo_id='NanoPi-R2S' && firmware_id="openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img"
+            repo_id='NanoPi-R2S-rk3328' && firmware_id="openwrt-rockchip-armv8-friendlyarm_nanopi-R2S-${format}-sysupgrade.img"
             ;;
         3)
             echo -e '\e[92m已选择X86\e[0m'
