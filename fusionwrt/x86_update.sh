@@ -30,13 +30,13 @@ version_choose () {
             echo -e '\e[91m退出脚本，升级结束\e[0m' && exit;
             ;;
         1)
-            echo -e '\e[92m已选择Docker_容器版\e[0m' && version_num=2
+            echo -e '\e[92m已选择Docker_容器版\e[0m' && version_num=docker
             ;;
         2)
-            echo -e '\e[92m已选择Stable_稳定版\e[0m' && version_num=3
+            echo -e '\e[92m已选择Stable_稳定版\e[0m' && version_num=slim
             ;;
         3)
-            echo -e '\e[92m已选择Formal_正式版\e[0m' && version_num=1
+            echo -e '\e[92m已选择Formal_正式版\e[0m' && version_num=full
             ;;
         *)
             echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m' && version_choose
@@ -66,20 +66,21 @@ format_choose () {
 #仓库选择
 repo_set () {
     proxy_url=https://ghproxy.com
-    repo_url=https://github.com/DHDAXCW/FusionWRT_x86_x64/releases
-    firmware_id=openwrt-x86-64-generic-squashfs-combined-efi.img
+    repo_url=https://github.com/DHDAXCW/OpenWRT_x86_x64/releases
+    firmware_prefix=x86-64-squashfs-efi.img
+    firmware_id=${version_num}-${firmware_prefix}
 }
 #寻找固件
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     #echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/sha256sums
+    wget -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/sha256sums
     exist_judge
 }
 #存在判断
 exist_judge () {
     if [ -f sha256sums ]; then
-        echo -e '\e[92m已找到当前日期的固件\e[0m' && echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean$version_num
+        echo -e '\e[92m已找到当前日期的固件\e[0m' && echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean1
         firmware_confirm
     elif [ $days == 21 ]; then
         echo -e '\e[91m未找到合适固件，脚本退出\e[0m' && exit;
@@ -94,7 +95,7 @@ firmware_confirm () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已确认，开始下载固件\e[0m'
-            wget ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean${version_num}/${firmware_id}.gz
+            wget ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${firmware_id}.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m' && search_file
