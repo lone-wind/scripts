@@ -180,7 +180,7 @@ update_firmware () {
         update_system
     else
         echo -e '\e[91m您的内存小于2G，升级将不保留配置\e[0m'
-        work_path=/root && version_num=3
+        work_path=/root && version_num=beggar
         repo_set && search_file && firmware_check && unzip_fireware
         dd_system
     fi
