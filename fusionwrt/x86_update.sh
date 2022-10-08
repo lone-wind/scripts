@@ -74,7 +74,7 @@ repo_set () {
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     #echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/sha256sums
+    wget -O sha256sums -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${version_num}-sha256sums
     exist_judge
 }
 #存在判断
