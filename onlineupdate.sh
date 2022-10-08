@@ -11,7 +11,7 @@ machine_choose () {
     echo -e '\e[92m输入对应数字选择设备或退出\e[0m'
     echo "0 --- Exit退出"
     echo "1 --- R4S"
-    echo "2 --- R2S"
+    echo "2 --- R5S"
     echo "3 --- X86"
     echo "4 --- DN2"
     echo "5 --- DN1"
@@ -26,8 +26,8 @@ machine_choose () {
             wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r4s_update.sh && sh r4s_update.sh
             ;;
         2)
-            echo -e '\e[92m已选择R2S\e[0m'
-            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r2s_update.sh && sh r2s_update.sh
+            echo -e '\e[92m已选择R5S\e[0m'
+            wget -q https://raw.githubusercontent.com/lone-wind/scripts/main/fusionwrt/r5s_update.sh && sh r5s_update.sh
             ;;
         3)
             echo -e '\e[92m已选择X86\e[0m'
