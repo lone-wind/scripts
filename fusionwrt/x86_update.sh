@@ -2,7 +2,7 @@
 #Build by lone_wind
 #清理文件
 clean_up () {
-    rm -rf openwrt*.img* ${img_path}/openwrt*.img* sha256sums* *update.sh*
+    rm -rf openwrt*.img* ${img_path}/openwrt*.img* *sha256sums* *update.sh*
 }
 #容器检查
 docker_check () {
@@ -74,12 +74,12 @@ repo_set () {
 search_file () {
     cd ${work_path} && clean_up && days=$(($days+1))
     #echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
-    wget -O sha256sums -q ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${version_num}-sha256sums
+    wget -q ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${version_num}-sha256sums
     exist_judge
 }
 #存在判断
 exist_judge () {
-    if [ -f sha256sums ]; then
+    if [ -f ${version_num}-sha256sums ]; then
         echo -e '\e[92m已找到当前日期的固件\e[0m' && echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean1
         firmware_confirm
     elif [ $days == 21 ]; then
@@ -95,7 +95,7 @@ firmware_confirm () {
     case $skip in
         [yY][eE][sS]|[yY])
             echo -e '\e[92m已确认，开始下载固件\e[0m'
-            wget ${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${firmware_id}.gz
+            wget ${proxy_url}/${repo_url}/download/$(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)-Lean1/${firmware_id}.gz
             ;;
         [nN][oO]|[nN])
             echo -e '\e[91m寻找前一天的固件\e[0m' && search_file
@@ -114,7 +114,7 @@ firmware_check () {
         echo -e '\e[92m检查升级文件大小\e[0m' && du -sh ${img_path}/${firmware_id}
     elif [ -f ${firmware_id}.gz ]; then
         echo -e '\e[92m计算固件的sha256sum值\e[0m' && sha256sum ${firmware_id}.gz
-        echo -e '\e[92m对比下列sha256sum值，检查固件是否完整\e[0m' && grep -i ${firmware_id}.gz sha256sums
+        echo -e '\e[92m对比下列sha256sum值，检查固件是否完整\e[0m' && grep -i ${firmware_id}.gz ${version_num}-sha256sums
     else
         echo -e '\e[91m没有相关升级文件，请检查网络\e[0m' && exit;
     fi
