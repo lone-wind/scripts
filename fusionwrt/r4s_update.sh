@@ -23,7 +23,7 @@ hd_check () {
 #版本选择
 version_choose () {
     echo -e '\e[92m根据数字选择固件版本或退出\e[0m'
-    echo -e '0 --- Exit退出\n1 --- Docker_容器版\n2 --- Stable_稳定版\n3 --- Formal_正式版'
+    echo -e '0 --- Exit退出\n1 --- Docker_容器版\n2 --- Stable_稳定版\n3 --- Formal_正式版\n4 --- Poor_乞丐版'
     read -p "请输入数字[0-3],回车确认 " version_num
     case $version_num in
         0)
@@ -38,8 +38,11 @@ version_choose () {
         3)
             echo -e '\e[92m已选择Formal_正式版\e[0m'
             ;;
+        4)
+            echo -e '\e[92m已选择Poor_乞丐版\e[0m' && version_num=5
+            ;;
         *)
-            echo -e '\e[91m非法输入,请输入数字[0-3]\e[0m' && version_choose
+            echo -e '\e[91m非法输入,请输入数字[0-4]\e[0m' && version_choose
             ;;
     esac
 }
