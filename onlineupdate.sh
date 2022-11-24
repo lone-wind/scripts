@@ -128,7 +128,7 @@ search_file () {
 #存在判断
 exist_judge () {
     if [ -f ${version_num}-sha256sums ]; then
-        echo -e '\e[92m已找到当前日期的固件\e[0m' && echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`-Lean${machine_id}
+        echo -e '\e[92m已找到当前日期的固件\e[0m' && echo `(date -d "@$(($(busybox date +%s) - 86400*($days-1)))" +%Y.%m.%d)`
         firmware_confirm
     elif [ $days == 21 ]; then
         echo -e '\e[91m未找到合适固件，脚本退出\e[0m' && exit;
