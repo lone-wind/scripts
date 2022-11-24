@@ -5,6 +5,10 @@
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh && sh onlineupdate.sh
 ```
+ - 如果出现“raw.githubusercontent.com|0.0.0.0”，可以尝试使用下述命令后，再使用升级脚本。
+```
+echo "185.199.109.133  raw.githubusercontent.com" >> /etc/hosts
+```
 - 适用Openwrt扩容（新建分区），Docker根目录为/opt/docker的固件，将会修改Docker根目录使其挂载至新分区。
 ```
 wget https://raw.githubusercontent.com/lone-wind/scripts/main/incr.sh && sh incr.sh
