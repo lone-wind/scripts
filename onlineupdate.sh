@@ -164,7 +164,8 @@ firmware_check () {
         echo -e '\e[91m开始检查固件完整性\e[0m'
         sha256sum ${firmware_url}.gz | awk '{print $1}' > sha256sums_real
         grep -i ${firmware_url}.gz ${version_num}-sha256sums | awk '{print $1}' > sha256sums_true
-        if diff sha256sums_real sha256sums_true; then
+        #if diff sha256sums_real sha256sums_true; then
+        if cmp -s sha256sums_real sha256sums_true; then
             echo -e '\e[92msha256sum校验通过\e[0m'
         else
             echo -e '\e[91msha256sum校验失败\e[0m' && exit;
