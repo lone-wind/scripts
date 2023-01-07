@@ -231,12 +231,14 @@ update_firmware () {
     echo -e '\e[92mFusionWrt固件升级脚本\e[0m'
     echo -e '\e[91m---------------------\e[0m'
     img_path=/tmp && clean_up && docker_check && hd_check
-    machine_choose && version_choose && format_choose && repo_set
+    #machine_choose && version_choose && format_choose && repo_set
+    machine_choose && version_choose && format_choose
     mount -t tmpfs -o remount,size=100% tmpfs /tmp
     real_mem=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}') && mini_mem=1572864
     if [ $real_mem -ge $mini_mem ]; then 
         work_path=/tmp
-        search_file && firmware_check && unzip_fireware && update_system
+        #search_file && firmware_check && unzip_fireware && update_system
+        repo_set && search_file && firmware_check && unzip_fireware && update_system
     else
         echo -e '\e[91m您的内存小于2G，升级将不保留配置\e[0m'
         work_path=/root
@@ -246,7 +248,8 @@ update_firmware () {
             echo -e '\e[91m内存小，固件版本强制为Stable_稳定版\e[0m'
             version_num=slim
         fi
-        search_file && firmware_check && unzip_fireware && dd_system
+        #search_file && firmware_check && unzip_fireware && dd_system
+        repo_set && search_file && firmware_check && unzip_fireware && dd_system
     fi
 }
 
